@@ -7,6 +7,7 @@ require('vim._core.ui2').enable({
     }
   }
 })
+
 -- Basic settings
 vim.opt.number = true -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
@@ -17,11 +18,20 @@ vim.opt.mouse = "a" -- Enable mouse mode (default: '')
 vim.opt.cursorline = true -- Highlight the current line (default: false):
 vim.g.have_nerd_font = true -- Nerdfont available
 vim.opt.breakindent = true -- wrapped line repeats indent
-vim.o.undofile = true -- Save undo history
-vim.o.splitright = true -- split opened right
-vim.o.splitbelow = true -- split opened below
-vim.o.confirm = true -- save the current file(s)
-vim.o.showmode = false -- we don't need to see -- INSERT --
+vim.opt.undofile = true -- Save undo history
+vim.opt.splitright = true -- split opened right
+vim.opt.splitbelow = true -- split opened below
+vim.opt.confirm = true -- save the current file(s)
+vim.opt.showmode = false -- we don't need to see -- INSERT --
+vim.opt.backup = false -- do not create a backup file
+vim.opt.writebackup = false -- do not write to a backup file
+vim.opt.swapfile = false -- do not create a swapfile
+vim.opt.hidden = true -- allow hidden buffers
+vim.opt.errorbells = false -- no error sounds
+vim.opt.backspace = "indent,eol,start" -- better backspace behaviour
+vim.opt.autochdir = false -- do not autochange directories
+vim.opt.iskeyword:append("-") -- include - in words
+vim.opt.clipboard:append("unnamedplus") -- use system clipboard
 
 -- Indentation
 vim.opt.tabstop = 2 -- Tab width
@@ -51,38 +61,22 @@ vim.opt.fillchars = { eob = "♡" } -- empty line char
 -- vim.o.ttimeoutlen = 10 -- Time in milliseconds to wait for a key code sequence (like Esc) to complete
 
 -- Enable native auto-triggering completion
-vim.o.autocomplete = true       -- Suggestions appear automatically as you type
-vim.o.autocompletedelay = 200    -- Delay in milliseconds before popup appears
+vim.opt.autocomplete = true       -- Suggestions appear automatically as you type
+vim.opt.autocompletedelay = 200    -- Delay in milliseconds before popup appears
 
--- Define the completion sources (Vim's native engine)
+-- Def_ine the completion sources (Vim's native engine)
 -- '.' = current buffer
 -- 'w' = windows
 -- 'b' = other loaded buffers
 -- 'o' = omnifunc (which LSP handles automatically)
-vim.o.complete = ".,w,b,o"
+vim.opt.complete = ".,w,b,o"
 
 -- UI and matching adjustments
-vim.o.completeopt = "menuone,noselect,fuzzy" -- Use the brand new 'fuzzy' matching!
-vim.o.pumheight = 10                         -- Max items shown in the popup menu
-vim.opt.pumblend = 10
-vim.o.pumborder = "single"
-
-vim.opt.backup = false -- do not create a backup file
-vim.opt.writebackup = false -- do not write to a backup file
-vim.opt.swapfile = false -- do not create a swapfile
-
-vim.opt.hidden = true -- allow hidden buffers
-vim.opt.errorbells = false -- no error sounds
-vim.opt.backspace = "indent,eol,start" -- better backspace behaviour
-vim.opt.autochdir = false -- do not autochange directories
-vim.opt.iskeyword:append("-") -- include - in words
-
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
+vim.opt.completeopt = "menuone,noselect,fuzzy" -- Use the brand new 'fuzzy' matching!
+vim.opt.pumheight = 10                         -- Max items shown in the popup menu
+vim.opt.pumborder = "single"
 
 -- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.hl.on_yank()`
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
@@ -105,11 +99,21 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("lsp_completion", { clear = true }),
+  callback = function(args)
+    local client_id = args.data.client_id
+    if not client_id then
+      return
+    end
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.schedule(function()
-	vim.o.clipboard = "unnamedplus"
-end)
+    local client = vim.lsp.get_client_by_id(client_id)
+    if client and client:supports_method("textDocument/completion") then
+      -- Enable native LSP completion for this client + buffer
+      vim.lsp.completion.enable(true, client_id, args.buf, {
+        autotrigger = true,   -- auto-show menu as you type (recommended)
+        -- You can also set { autotrigger = false } and trigger manually with <C-x><C-o>
+      })
+    end
+  end,
+})

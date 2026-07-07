@@ -66,8 +66,6 @@ vim.lsp.config('ts_ls', {
   },
 })
 
-vim.lsp.enable('ts_ls')
-
 -- diagnostic config
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config({
