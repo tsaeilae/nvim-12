@@ -44,4 +44,3 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line(s) up in visual
 
 -- Restart
 vim.keymap.set("n", "<leader>r", ":restart <CR>", { desc = "Restart" })
-

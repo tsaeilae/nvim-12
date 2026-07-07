@@ -1,11 +1,11 @@
 -- Initialize UI2 with routing overrides
-require('vim._core.ui2').enable({
-  enable = true,
-  msg = {
-    targets = {
-      [''] = 'msg' -- message types in float window
-    }
-  }
+require("vim._core.ui2").enable({
+	enable = true,
+	msg = {
+		targets = {
+			[""] = "msg", -- message types in float window
+		},
+	},
 })
 
 -- Basic settings
@@ -32,6 +32,7 @@ vim.opt.backspace = "indent,eol,start" -- better backspace behaviour
 vim.opt.autochdir = false -- do not autochange directories
 vim.opt.iskeyword:append("-") -- include - in words
 vim.opt.clipboard:append("unnamedplus") -- use system clipboard
+vim.opt.modifiable = true -- Allow buffer modifications
 
 -- Indentation
 vim.opt.tabstop = 2 -- Tab width
@@ -61,8 +62,8 @@ vim.opt.fillchars = { eob = "♡" } -- empty line char
 -- vim.o.ttimeoutlen = 10 -- Time in milliseconds to wait for a key code sequence (like Esc) to complete
 
 -- Enable native auto-triggering completion
-vim.opt.autocomplete = true       -- Suggestions appear automatically as you type
-vim.opt.autocompletedelay = 200    -- Delay in milliseconds before popup appears
+vim.opt.autocomplete = true -- Suggestions appear automatically as you type
+vim.opt.autocompletedelay = 200 -- Delay in milliseconds before popup appears
 
 -- Def_ine the completion sources (Vim's native engine)
 -- '.' = current buffer
@@ -73,7 +74,7 @@ vim.opt.complete = ".,w,b,o"
 
 -- UI and matching adjustments
 vim.opt.completeopt = "menuone,noselect,fuzzy" -- Use the brand new 'fuzzy' matching!
-vim.opt.pumheight = 10                         -- Max items shown in the popup menu
+vim.opt.pumheight = 10 -- Max items shown in the popup menu
 vim.opt.pumborder = "single"
 
 -- Highlight when yanking (copying) text
@@ -87,33 +88,40 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Disable native autocompletion in Telescope and other prompt/special buffers
 vim.api.nvim_create_autocmd("BufEnter", {
-  group = vim.api.nvim_create_augroup("disable_autocomplete_in_prompts", { clear = true }),
-  callback = function(ev)
-    -- If the buffer is a prompt (Telescope) or a non-file helper window, turn autocomplete off
-    if vim.bo[ev.buf].buftype ~= "" or vim.bo[ev.buf].filetype == "TelescopePrompt" then
-      vim.bo[ev.buf].autocomplete = false
-    else
-      vim.bo[ev.buf].autocomplete = true
-    -- Force local buffer to keep it active for standard files
-    end
-  end,
+	group = vim.api.nvim_create_augroup("disable_autocomplete_in_prompts", { clear = true }),
+	callback = function(ev)
+		-- If the buffer is a prompt (Telescope) or a non-file helper window, turn autocomplete off
+		if vim.bo[ev.buf].buftype ~= "" or vim.bo[ev.buf].filetype == "TelescopePrompt" then
+			vim.bo[ev.buf].autocomplete = false
+		else
+			vim.bo[ev.buf].autocomplete = true
+			-- Force local buffer to keep it active for standard files
+		end
+	end,
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("lsp_completion", { clear = true }),
-  callback = function(args)
-    local client_id = args.data.client_id
-    if not client_id then
-      return
-    end
+	group = vim.api.nvim_create_augroup("lsp_completion", { clear = true }),
+	callback = function(args)
+		local client_id = args.data.client_id
+		if not client_id then
+			return
+		end
 
-    local client = vim.lsp.get_client_by_id(client_id)
-    if client and client:supports_method("textDocument/completion") then
-      -- Enable native LSP completion for this client + buffer
-      vim.lsp.completion.enable(true, client_id, args.buf, {
-        autotrigger = true,   -- auto-show menu as you type (recommended)
-        -- You can also set { autotrigger = false } and trigger manually with <C-x><C-o>
-      })
-    end
-  end,
+		local client = vim.lsp.get_client_by_id(client_id)
+		if client and client:supports_method("textDocument/completion") then
+			vim.lsp.completion.enable(true, client_id, args.buf, {
+				autotrigger = true,
+			})
+		end
+
+		if client and client:supports_method("textDocument/formatting") then
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				buffer = args.buf,
+				callback = function()
+					vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
+				end,
+			})
+		end
+	end,
 })
