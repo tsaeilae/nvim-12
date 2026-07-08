@@ -1,52 +1,52 @@
 -- Initialize UI2 with routing overrides
 require("vim._core.ui2").enable({
-	enable = true,
-	msg = {
-		targets = {
-			[""] = "msg", -- message types in float window
-		},
-	},
+  enable = true,
+  msg = {
+    targets = {
+      [""] = "msg", -- message types in float window
+    },
+  },
 })
 
 -- Basic settings
-vim.opt.number = true -- Line numbers
-vim.opt.relativenumber = true -- Relative line numbers
-vim.opt.wrap = false -- Don't wrap lines
-vim.opt.scrolloff = 10 -- Keep 10 lines above/below cursor
-vim.opt.sidescrolloff = 8 -- Keep 8 columns left/right of cursor
-vim.opt.mouse = "a" -- Enable mouse mode (default: '')
-vim.opt.cursorline = true -- Highlight the current line (default: false):
-vim.g.have_nerd_font = true -- Nerdfont available
-vim.opt.breakindent = true -- wrapped line repeats indent
-vim.opt.undofile = true -- Save undo history
-vim.opt.splitright = true -- split opened right
-vim.opt.splitbelow = true -- split opened below
-vim.opt.confirm = true -- save the current file(s)
-vim.opt.showmode = false -- we don't need to see -- INSERT --
-vim.opt.backup = false -- do not create a backup file
-vim.opt.writebackup = false -- do not write to a backup file
-vim.opt.swapfile = false -- do not create a swapfile
-vim.opt.hidden = true -- allow hidden buffers
-vim.opt.errorbells = false -- no error sounds
-vim.opt.backspace = "indent,eol,start" -- better backspace behaviour
-vim.opt.autochdir = false -- do not autochange directories
-vim.opt.iskeyword:append("-") -- include - in words
+vim.opt.number = true                   -- Line numbers
+vim.opt.relativenumber = true           -- Relative line numbers
+vim.opt.wrap = false                    -- Don't wrap lines
+vim.opt.scrolloff = 10                  -- Keep 10 lines above/below cursor
+vim.opt.sidescrolloff = 8               -- Keep 8 columns left/right of cursor
+vim.opt.mouse = "a"                     -- Enable mouse mode (default: '')
+vim.opt.cursorline = true               -- Highlight the current line (default: false):
+vim.g.have_nerd_font = true             -- Nerdfont available
+vim.opt.breakindent = true              -- wrapped line repeats indent
+vim.opt.undofile = true                 -- Save undo history
+vim.opt.splitright = true               -- split opened right
+vim.opt.splitbelow = true               -- split opened below
+vim.opt.confirm = true                  -- save the current file(s)
+vim.opt.showmode = false                -- we don't need to see -- INSERT --
+vim.opt.backup = false                  -- do not create a backup file
+vim.opt.writebackup = false             -- do not write to a backup file
+vim.opt.swapfile = false                -- do not create a swapfile
+vim.opt.hidden = true                   -- allow hidden buffers
+vim.opt.errorbells = false              -- no error sounds
+vim.opt.backspace = "indent,eol,start"  -- better backspace behaviour
+vim.opt.autochdir = false               -- do not autochange directories
+vim.opt.iskeyword:append("-")           -- include - in words
 vim.opt.clipboard:append("unnamedplus") -- use system clipboard
-vim.opt.modifiable = true -- Allow buffer modifications
+vim.opt.modifiable = true               -- Allow buffer modifications
 
 -- Indentation
-vim.opt.tabstop = 2 -- Tab width
-vim.opt.shiftwidth = 2 -- Indent width
-vim.opt.softtabstop = 2 -- Soft tab stop
-vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.tabstop = 2        -- Tab width
+vim.opt.shiftwidth = 2     -- Indent width
+vim.opt.softtabstop = 2    -- Soft tab stop
+vim.opt.expandtab = true   -- Use spaces instead of tabs
 vim.opt.smartindent = true -- Smart auto-indenting
-vim.opt.autoindent = true -- Copy indent from current line
+vim.opt.autoindent = true  -- Copy indent from current line
 
 -- Search settings
 vim.opt.ignorecase = true -- Case insensitive search
-vim.opt.smartcase = true -- Case sensitive if uppercase in search
-vim.opt.hlsearch = false -- Don't highlight search results
-vim.opt.incsearch = true -- Show matches as you type
+vim.opt.smartcase = true  -- Case sensitive if uppercase in search
+vim.opt.hlsearch = false  -- Don't highlight search results
+vim.opt.incsearch = true  -- Show matches as you type
 
 -- Visual settings
 vim.opt.termguicolors = true -- Enable 24-bit colors
@@ -74,54 +74,28 @@ vim.opt.complete = ".,w,b,o"
 
 -- UI and matching adjustments
 vim.opt.completeopt = "menuone,noselect,fuzzy" -- Use the brand new 'fuzzy' matching!
-vim.opt.pumheight = 10 -- Max items shown in the popup menu
+vim.opt.pumheight = 10                         -- Max items shown in the popup menu
 vim.opt.pumborder = "single"
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-	callback = function()
-		vim.hl.on_yank()
-	end,
+  desc = "Highlight when yanking (copying) text",
+  group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+  callback = function()
+    vim.hl.on_yank()
+  end,
 })
 
 -- Disable native autocompletion in Telescope and other prompt/special buffers
 vim.api.nvim_create_autocmd("BufEnter", {
-	group = vim.api.nvim_create_augroup("disable_autocomplete_in_prompts", { clear = true }),
-	callback = function(ev)
-		-- If the buffer is a prompt (Telescope) or a non-file helper window, turn autocomplete off
-		if vim.bo[ev.buf].buftype ~= "" or vim.bo[ev.buf].filetype == "TelescopePrompt" then
-			vim.bo[ev.buf].autocomplete = false
-		else
-			vim.bo[ev.buf].autocomplete = true
-			-- Force local buffer to keep it active for standard files
-		end
-	end,
-})
-
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("lsp_completion", { clear = true }),
-	callback = function(args)
-		local client_id = args.data.client_id
-		if not client_id then
-			return
-		end
-
-		local client = vim.lsp.get_client_by_id(client_id)
-		if client and client:supports_method("textDocument/completion") then
-			vim.lsp.completion.enable(true, client_id, args.buf, {
-				autotrigger = true,
-			})
-		end
-
-		if client and client:supports_method("textDocument/formatting") then
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				buffer = args.buf,
-				callback = function()
-					vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
-				end,
-			})
-		end
-	end,
+  group = vim.api.nvim_create_augroup("disable_autocomplete_in_prompts", { clear = true }),
+  callback = function(ev)
+    -- If the buffer is a prompt (Telescope) or a non-file helper window, turn autocomplete off
+    if vim.bo[ev.buf].buftype ~= "" or vim.bo[ev.buf].filetype == "TelescopePrompt" then
+      vim.bo[ev.buf].autocomplete = false
+    else
+      vim.bo[ev.buf].autocomplete = true
+      -- Force local buffer to keep it active for standard files
+    end
+  end,
 })
