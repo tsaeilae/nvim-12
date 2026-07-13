@@ -7,3 +7,6 @@ vim.pack.add({
 	"https://github.com/MunifTanjim/nui.nvim",
 	"https://github.com/nvim-tree/nvim-web-devicons",
 })
+
+-- Neotree toggle
+vim.keymap.set("n", "<leader>e", ":Neotree float reveal toggle<CR>", { desc = "Toggle Neotree" })

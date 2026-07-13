@@ -3,3 +3,4 @@ vim.pack.add({
 })
 
 require("mason").setup({})
+

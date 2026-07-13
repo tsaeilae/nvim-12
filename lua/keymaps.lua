@@ -1,7 +1,5 @@
 local opts = { noremap = true, silent = true }
 
-local term_opts = { silent = true }
-
 --Remap space as leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -19,9 +17,6 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Center cursor after moving up 
 -- Clear highlights on search when pressing <Esc> in normal mode
 -- See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-
--- Neotree toggle
-vim.keymap.set("n", "<leader>e", ":Neotree float reveal toggle<CR>", { desc = "Toggle Neotree" })
 
 -- save file
 vim.keymap.set("n", "<C-s>", "<cmd> w <CR>", { desc = "Save file" })
@@ -44,3 +39,4 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line(s) up in visual
 
 -- Restart
 vim.keymap.set("n", "<leader>r", ":restart <CR>", { desc = "Restart" })
+

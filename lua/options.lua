@@ -1,13 +1,3 @@
--- Initialize UI2 with routing overrides
-require("vim._core.ui2").enable({
-  enable = true,
-  msg = {
-    targets = {
-      [""] = "msg", -- message types in float window
-    },
-  },
-})
-
 -- Basic settings
 vim.opt.number = true                   -- Line numbers
 vim.opt.relativenumber = true           -- Relative line numbers
@@ -62,20 +52,32 @@ vim.opt.fillchars = { eob = "♡" } -- empty line char
 -- vim.o.ttimeoutlen = 10 -- Time in milliseconds to wait for a key code sequence (like Esc) to complete
 
 -- Enable native auto-triggering completion
-vim.opt.autocomplete = true -- Suggestions appear automatically as you type
-vim.opt.autocompletedelay = 200 -- Delay in milliseconds before popup appears
+-- vim.opt.autocomplete = true -- Suggestions appear automatically as you type
+-- vim.opt.autocompletedelay = 200 -- Delay in milliseconds before popup appears
 
 -- Def_ine the completion sources (Vim's native engine)
 -- '.' = current buffer
 -- 'w' = windows
 -- 'b' = other loaded buffers
 -- 'o' = omnifunc (which LSP handles automatically)
-vim.opt.complete = ".,w,b,o"
+-- vim.opt.complete = ".,w,b,o"
 
 -- UI and matching adjustments
-vim.opt.completeopt = "menuone,noselect,fuzzy" -- Use the brand new 'fuzzy' matching!
-vim.opt.pumheight = 10                         -- Max items shown in the popup menu
-vim.opt.pumborder = "single"
+-- vim.opt.completeopt = "menuone,noselect,fuzzy" -- Use the brand new 'fuzzy' matching!
+-- vim.opt.pumheight = 10                         -- Max items shown in the popup menu
+-- vim.opt.pumborder = "single"
+
+-- Initialize UI2 with routing overrides
+require("vim._core.ui2").enable({
+  enable = true,
+  msg = {
+    targets = {
+      [""] = "msg", -- message types in float window
+    },
+  },
+})
+
+vim.opt.shortmess:append("c") -- Prevents showing extra messages like "match 1 of 2" when using completion
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
