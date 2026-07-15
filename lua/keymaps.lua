@@ -1,9 +1,5 @@
 local opts = { noremap = true, silent = true }
 
---Remap space as leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 -- Better window navigation
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })

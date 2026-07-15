@@ -9,18 +9,6 @@ vim.api.nvim_create_autocmd("PackChanged", {
 	end,
 })
 
--- Add Telescope and its required dependencies via vim.pack
-vim.pack.add({
-	-- Core dependency for utilities and async jobs
-	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-
-	-- (Optional) Native C performance sorter
-	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
-
-	-- Telescope itself
-	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
-})
-
 -- Load the FZF extension (if you installed it above)
 pcall(require("telescope").load_extension, "fzf")
 

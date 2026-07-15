@@ -46,6 +46,7 @@ vim.opt.showmatch = true -- Highlight matching brackets
 vim.opt.matchtime = 2 -- How long to show matching bracket
 vim.opt.cmdheight = 1 -- Command line height
 vim.opt.fillchars = { eob = "♡" } -- empty line char
+vim.opt.shortmess:append("c") -- Prevents showing extra messages like "match 1 of 2" in core ui2 msg float window
 
 -- ESC key speed
 -- vim.o.timeoutlen = 300 -- Time in milliseconds to wait for a mapped sequence to complete
@@ -66,38 +67,3 @@ vim.opt.fillchars = { eob = "♡" } -- empty line char
 -- vim.opt.completeopt = "menuone,noselect,fuzzy" -- Use the brand new 'fuzzy' matching!
 -- vim.opt.pumheight = 10                         -- Max items shown in the popup menu
 -- vim.opt.pumborder = "single"
-
--- Initialize UI2 with routing overrides
-require("vim._core.ui2").enable({
-  enable = true,
-  msg = {
-    targets = {
-      [""] = "msg", -- message types in float window
-    },
-  },
-})
-
-vim.opt.shortmess:append("c") -- Prevents showing extra messages like "match 1 of 2" when using completion
-
--- Highlight when yanking (copying) text
-vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking (copying) text",
-  group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-  callback = function()
-    vim.hl.on_yank()
-  end,
-})
-
--- Disable native autocompletion in Telescope and other prompt/special buffers
-vim.api.nvim_create_autocmd("BufEnter", {
-  group = vim.api.nvim_create_augroup("disable_autocomplete_in_prompts", { clear = true }),
-  callback = function(ev)
-    -- If the buffer is a prompt (Telescope) or a non-file helper window, turn autocomplete off
-    if vim.bo[ev.buf].buftype ~= "" or vim.bo[ev.buf].filetype == "TelescopePrompt" then
-      vim.bo[ev.buf].autocomplete = false
-    else
-      vim.bo[ev.buf].autocomplete = true
-      -- Force local buffer to keep it active for standard files
-    end
-  end,
-})

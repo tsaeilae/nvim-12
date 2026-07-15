@@ -1,10 +1,3 @@
-vim.pack.add({
-	{
-		src = "https://github.com/rose-pine/neovim",
-		name = "rose-pine",
-	},
-})
-
 local transparent_state = false
 
 require("rose-pine").setup({
