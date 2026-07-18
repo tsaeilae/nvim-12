@@ -1,5 +1,7 @@
 require("mason").setup()
+
 require("mason-lspconfig").setup()
+
 require("mason-tool-installer").setup({
   ensure_installed = {
     "cssls",
@@ -9,6 +11,7 @@ require("mason-tool-installer").setup({
 })
 
 vim.lsp.config("cssls", {
+  filetypes = { "css", "scss", "less" },
   settings = {
     css = { validate = true },
     scss = { validate = true },
@@ -17,6 +20,7 @@ vim.lsp.config("cssls", {
 })
 
 vim.lsp.config("lua_ls", {
+  filetypes = { "lua" },
   settings = {
     Lua = {
       runtime = {
@@ -39,6 +43,7 @@ vim.lsp.config("lua_ls", {
 })
 
 vim.lsp.config("ts_ls", {
+  filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
   settings = {
     typescript = {
       inlayHints = {
@@ -87,3 +92,4 @@ vim.diagnostic.config({
     end,
   },
 })
+

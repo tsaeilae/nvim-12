@@ -67,3 +67,4 @@ vim.opt.shortmess:append("c") -- Prevents showing extra messages like "match 1 o
 -- vim.opt.completeopt = "menuone,noselect,fuzzy" -- Use the brand new 'fuzzy' matching!
 -- vim.opt.pumheight = 10                         -- Max items shown in the popup menu
 -- vim.opt.pumborder = "single"
+
