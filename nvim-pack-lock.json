@@ -5,6 +5,14 @@
       "src": "https://github.com/saghen/blink.cmp",
       "version": "1.0.0 - 2.0.0"
     },
+    "friendly-snippets": {
+      "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
+      "src": "https://github.com/rafamadriz/friendly-snippets"
+    },
+    "indent-blankline.nvim": {
+      "rev": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03",
+      "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
+    },
     "lualine.nvim": {
       "rev": "221ce6b2d999187044529f49da6554a92f740a96",
       "src": "https://github.com/nvim-lualine/lualine.nvim"

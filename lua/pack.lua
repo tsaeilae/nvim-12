@@ -4,8 +4,9 @@ vim.pack.add({
      -- ------ Core libraries ---------------------------------------------------
     { src = "https://github.com/nvim-tree/nvim-web-devicons" },
     { src = "https://github.com/nvim-lua/plenary.nvim" },
-    -- ------ Completion & snippets --------------------------------------------
+     -- ------ Completion & snippets --------------------------------------------
     { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("^1") },
+    { src = "https://github.com/rafamadriz/friendly-snippets" },
      -- ------ LSP tooling ------------------------------------------------------
 	  { src = "https://github.com/mason-org/mason.nvim" },
 	  { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
@@ -23,6 +24,7 @@ vim.pack.add({
     -- ------ UI --------------------------------------------------------------
     { src = "https://github.com/nvim-lualine/lualine.nvim" },
     { src = "https://github.com/karb94/neoscroll.nvim" },
+    { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
 })
 
 -- ---------------------------------------------------------------------------
@@ -39,11 +41,12 @@ local function safe_require(mod)
   end
 end
 
-safe_require("colortheme")   -- FIRST
+safe_require("colortheme")   -- first
 safe_require("telescope")
-safe_require("blink")    -- blink.cmp — before LSP
-safe_require("lsp")           -- uses blink.cmp capabilities
+safe_require("blink")   -- blink.cmp — before LSP
+safe_require("lsp")     -- uses blink.cmp capabilities
 safe_require("lualine")
+safe_require("indent-blankline")
 safe_require("neoscroll")
 safe_require("neotree")
 safe_require("opencode")
