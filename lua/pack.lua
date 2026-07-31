@@ -24,3 +24,26 @@ vim.pack.add({
     { src = "https://github.com/nvim-lualine/lualine.nvim" },
     { src = "https://github.com/karb94/neoscroll.nvim" },
 })
+
+-- ---------------------------------------------------------------------------
+-- 2. Configure each plugin
+-- ---------------------------------------------------------------------------
+-- Ordering matters for two reasons:
+--   * The colorscheme must load before anything that reads its highlights.
+--   * LSP must setup AFTER blink so we can feed blink's capabilities
+--     into lspconfig.
+local function safe_require(mod)
+  local ok, err = pcall(require, "plugin." .. mod)
+  if not ok then
+    vim.notify(("Failed loading plugins.%s: %s"):format(mod, err), vim.log.levels.ERROR)
+  end
+end
+
+safe_require("colortheme")   -- FIRST
+safe_require("telescope")
+safe_require("blink")    -- blink.cmp — before LSP
+safe_require("lsp")           -- uses blink.cmp capabilities
+safe_require("lualine")
+safe_require("neoscroll")
+safe_require("neotree")
+safe_require("opencode")

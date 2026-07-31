@@ -10,6 +10,13 @@ require("mason-tool-installer").setup({
   },
 })
 
+-- Merge blink's completion capabilities onto Neovim's defaults so every
+-- server we enable knows we support snippets, resolveSupport, etc.
+local capabilities = require("blink.cmp").get_lsp_capabilities()
+
+-- A global default that applies to every server.
+vim.lsp.config("*", { capabilities = capabilities })
+
 vim.lsp.config("cssls", {
   filetypes = { "css", "scss", "less" },
   settings = {
