@@ -25,6 +25,7 @@ vim.pack.add({
     { src = "https://github.com/nvim-lualine/lualine.nvim" },
     { src = "https://github.com/karb94/neoscroll.nvim" },
     { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
+    { src = "https://github.com/Aasim-A/scrollEOF.nvim" },
 })
 
 -- ---------------------------------------------------------------------------
@@ -47,6 +48,7 @@ safe_require("blink")   -- blink.cmp — before LSP
 safe_require("lsp")     -- uses blink.cmp capabilities
 safe_require("lualine")
 safe_require("indent-blankline")
+safe_require("scrollEOF")
 safe_require("neoscroll")
 safe_require("neotree")
 safe_require("opencode")
