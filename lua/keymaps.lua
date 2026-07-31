@@ -33,6 +33,10 @@ vim.keymap.set("n", "<leader>lw", "<cmd>set wrap!<CR>", opts)
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line(s) down in visual mode" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line(s) up in visual mode" })
 
+-- Visual-mode stays in visual mode after indent 
+vim.keymap.set("v", "<", "<gv", { desc = "Outdent, keep selection" })
+vim.keymap.set("v", ">", ">gv", { desc = "Indent, keep selection" })
+
 -- Restart
 vim.keymap.set("n", "<leader>r", ":restart <CR>", { desc = "Restart" })
 
