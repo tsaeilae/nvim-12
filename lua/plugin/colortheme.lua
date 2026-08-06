@@ -7,6 +7,7 @@ require("rose-pine").setup({
 	},
 
 	highlight_groups = {
+		Visual = { bg = "rose" },
 		TelescopeBorder = { fg = "highlight_high", bg = "none" },
 		TelescopeNormal = { bg = "none" },
 		TelescopePromptNormal = { bg = "none" },
