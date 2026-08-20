@@ -5,6 +5,7 @@ require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({
   ensure_installed = {
     "cssls",
+    "emmet_ls",
     "lua_ls",
     "ts_ls",
   },
@@ -69,7 +70,11 @@ vim.lsp.config("ts_ls", {
   },
 })
 
-vim.lsp.enable({ "cssls", "lua_ls", "ts_ls" })
+vim.lsp.config("emmet_ls", {
+  filetypes = { "html", "htm" },
+})
+
+vim.lsp.enable({ "cssls", "emmet_ls", "lua_ls", "ts_ls" })
 
 -- diagnostic config
 -- See :help vim.diagnostic.Opts

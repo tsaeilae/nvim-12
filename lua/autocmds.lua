@@ -7,6 +7,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+-- Treat nunjucks template files as HTML
+vim.filetype.add({
+  extension = {
+    njk = "html",
+    nunjucks = "html",
+    nunj = "html",
+  },
+})
+
 -- Return to the last cursor position when reopening a file.
 vim.api.nvim_create_autocmd("BufReadPost", {
   callback = function(args)
