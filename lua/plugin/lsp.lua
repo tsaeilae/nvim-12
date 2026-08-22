@@ -71,7 +71,7 @@ vim.lsp.config("ts_ls", {
 })
 
 vim.lsp.config("emmet_ls", {
-  filetypes = { "html", "htm" },
+  filetypes = { "html" },
 })
 
 vim.lsp.enable({ "cssls", "emmet_ls", "lua_ls", "ts_ls" })

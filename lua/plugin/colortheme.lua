@@ -1,6 +1,8 @@
+-- Keep the full config in one table so re-setup on toggle doesn't wipe
+-- highlight_groups (rose-pine's setup replaces the whole config, no merge).
 local transparent_state = false
 
-require("rose-pine").setup({
+local rose_pine_config = {
 	styles = {
 		transparency = transparent_state,
 		italic = false,
@@ -15,18 +17,17 @@ require("rose-pine").setup({
 		TelescopeSelection = { fg = "text", bg = "base" },
 		TelescopeSelectionCaret = { fg = "rose", bg = "rose" },
 	},
-})
+}
+
+require("rose-pine").setup(rose_pine_config)
 
 vim.cmd("colorscheme rose-pine")
 
 local function toggle_transparency()
 	transparent_state = not transparent_state
+	rose_pine_config.styles.transparency = transparent_state
 
-	require("rose-pine").setup({
-		styles = {
-			transparency = transparent_state,
-		},
-	})
+	require("rose-pine").setup(rose_pine_config)
 
 	vim.cmd("colorscheme rose-pine")
 
