@@ -26,6 +26,8 @@ vim.pack.add({
     { src = "https://github.com/karb94/neoscroll.nvim" },
     { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
     { src = "https://github.com/Aasim-A/scrollEOF.nvim" },
+    -- ------ Formatter (replaces null-ls for format-on-save) ------------------
+    { src = "https://github.com/stevearc/conform.nvim" },
 })
 
 -- ---------------------------------------------------------------------------
@@ -52,3 +54,4 @@ safe_require("scrollEOF")
 safe_require("neoscroll")
 safe_require("neotree")
 safe_require("opencode")
+safe_require("conform")

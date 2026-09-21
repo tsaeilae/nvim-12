@@ -7,6 +7,8 @@ require("mason-tool-installer").setup({
     "cssls",
     "emmet_ls",
     "lua_ls",
+    "prettier",
+    "stylua",
     "ts_ls",
   },
 })
