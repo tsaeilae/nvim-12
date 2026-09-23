@@ -7,10 +7,25 @@ conform.setup({
 		javascriptreact = { "prettierd", "prettier", stop_after_first = true },
 		typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 		css = { "prettierd", "prettier", stop_after_first = true },
+		scss = { "prettierd", "prettier", stop_after_first = true },
 		json = { "prettierd", "prettier", stop_after_first = true },
 		yaml = { "prettierd", "prettier", stop_after_first = true },
 		markdown = { "prettierd", "prettier", stop_after_first = true },
 	},
+
+	formatters = {
+		prettier = {
+			prepend_args = function()
+				return { "--single-quote", "--print-width=200" }
+			end,
+		},
+		prettierd = {
+			prepend_args = function()
+				return { "--single-quote", "--print-width=200" }
+			end,
+		},
+	},
+
 	format_on_save = function(bufnr)
 		-- Allow disabling per-buffer or globally via `vim.g.disable_autoformat`.
 		if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
