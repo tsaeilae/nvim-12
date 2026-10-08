@@ -13,8 +13,7 @@ vim.pack.add({
 	{ src = "https://github.com/mason-org/mason-tool-installer.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	-- ------ LLM --------------------------------------------------
-	-- No `version`: track "main", which supports OpenCode v2 (stable releases only support v1).
-	{ src = "https://github.com/nickjvandyke/opencode.nvim" },
+	{ src = "https://github.com/nickjvandyke/opencode.nvim", version = vim.version.range("*") },
 	{ src = "https://github.com/folke/snacks.nvim" }, -- enhances opencode ask()/select()
 	-- ------ Telescope (fuzzy finder) -----------------------------------------
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
