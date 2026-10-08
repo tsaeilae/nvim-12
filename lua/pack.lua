@@ -1,33 +1,35 @@
 vim.pack.add({
-    -- ------ Theme -------------------------------------------------------------
-    { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
-     -- ------ Core libraries ---------------------------------------------------
-    { src = "https://github.com/nvim-tree/nvim-web-devicons" },
-    { src = "https://github.com/nvim-lua/plenary.nvim" },
-     -- ------ Completion & snippets --------------------------------------------
-    { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("^1") },
-    { src = "https://github.com/rafamadriz/friendly-snippets" },
-     -- ------ LSP tooling ------------------------------------------------------
-	  { src = "https://github.com/mason-org/mason.nvim" },
-	  { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-	  { src = "https://github.com/mason-org/mason-tool-installer.nvim" },
-    { src = "https://github.com/neovim/nvim-lspconfig" },
-     -- ------ LLM --------------------------------------------------
-    { src = "https://github.com/nickjvandyke/opencode.nvim", version = vim.version.range("*")},
-    -- ------ Telescope (fuzzy finder) -----------------------------------------
-    { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
-    { src = "https://github.com/nvim-telescope/telescope.nvim" },
-     -- ------ File navigation --------------------------------------------------
-    { src = "https://github.com/nvim-neo-tree/neo-tree.nvim", version = vim.version.range("3") },
-    { src = "https://github.com/MunifTanjim/nui.nvim" },
-    { src = "https://github.com/mbbill/undotree" },
-    -- ------ UI --------------------------------------------------------------
-    { src = "https://github.com/nvim-lualine/lualine.nvim" },
-    { src = "https://github.com/karb94/neoscroll.nvim" },
-    { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
-    { src = "https://github.com/Aasim-A/scrollEOF.nvim" },
-    -- ------ Formatter (replaces null-ls for format-on-save) ------------------
-    { src = "https://github.com/stevearc/conform.nvim" },
+	-- ------ Theme -------------------------------------------------------------
+	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+	-- ------ Core libraries ---------------------------------------------------
+	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
+	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	-- ------ Completion & snippets --------------------------------------------
+	{ src = "https://github.com/saghen/blink.cmp", version = vim.version.range("^1") },
+	{ src = "https://github.com/rafamadriz/friendly-snippets" },
+	-- ------ LSP tooling ------------------------------------------------------
+	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+	{ src = "https://github.com/mason-org/mason-tool-installer.nvim" },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	-- ------ LLM --------------------------------------------------
+	-- No `version`: track "main", which supports OpenCode v2 (stable releases only support v1).
+	{ src = "https://github.com/nickjvandyke/opencode.nvim" },
+	{ src = "https://github.com/folke/snacks.nvim" }, -- enhances opencode ask()/select()
+	-- ------ Telescope (fuzzy finder) -----------------------------------------
+	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
+	-- ------ File navigation --------------------------------------------------
+	{ src = "https://github.com/nvim-neo-tree/neo-tree.nvim", version = vim.version.range("3") },
+	{ src = "https://github.com/MunifTanjim/nui.nvim" },
+	{ src = "https://github.com/mbbill/undotree" },
+	-- ------ UI --------------------------------------------------------------
+	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
+	{ src = "https://github.com/karb94/neoscroll.nvim" },
+	{ src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
+	{ src = "https://github.com/Aasim-A/scrollEOF.nvim" },
+	-- ------ Formatter (replaces null-ls for format-on-save) ------------------
+	{ src = "https://github.com/stevearc/conform.nvim" },
 })
 
 -- ---------------------------------------------------------------------------
@@ -38,20 +40,21 @@ vim.pack.add({
 --   * LSP must setup AFTER blink so we can feed blink's capabilities
 --     into lspconfig.
 local function safe_require(mod)
-  local ok, err = pcall(require, "plugin." .. mod)
-  if not ok then
-    vim.notify(("Failed loading plugins.%s: %s"):format(mod, err), vim.log.levels.ERROR)
-  end
+	local ok, err = pcall(require, "plugin." .. mod)
+	if not ok then
+		vim.notify(("Failed loading plugins.%s: %s"):format(mod, err), vim.log.levels.ERROR)
+	end
 end
 
-safe_require("colortheme")   -- first
+safe_require("colortheme") -- first
 safe_require("telescope")
-safe_require("blink")   -- blink.cmp — before LSP
-safe_require("lsp")     -- uses blink.cmp capabilities
+safe_require("blink") -- blink.cmp — before LSP
+safe_require("lsp") -- uses blink.cmp capabilities
 safe_require("lualine")
 safe_require("indent-blankline")
 safe_require("scrollEOF")
 safe_require("neoscroll")
 safe_require("neotree")
+safe_require("snacks") -- before opencode: enhances ask()/select()
 safe_require("opencode")
 safe_require("conform")
