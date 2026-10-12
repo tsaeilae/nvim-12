@@ -14,7 +14,7 @@ vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	-- ------ LLM --------------------------------------------------
 	{ src = "https://github.com/nickjvandyke/opencode.nvim", version = vim.version.range("*") },
-	{ src = "https://github.com/folke/snacks.nvim" }, -- enhances opencode ask()/select()
+	{ src = "https://github.com/folke/snacks.nvim" },
 	-- ------ Telescope (fuzzy finder) -----------------------------------------
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
 	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
@@ -54,6 +54,6 @@ safe_require("indent-blankline")
 safe_require("scrollEOF")
 safe_require("neoscroll")
 safe_require("neotree")
-safe_require("snacks") -- before opencode: enhances ask()/select()
 safe_require("opencode")
+safe_require("snacks")
 safe_require("conform")
